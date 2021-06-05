@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import SignUpForm
 
