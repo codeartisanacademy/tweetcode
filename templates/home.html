@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 
 {% block page-title %}
     <h4>Home</h4>
 {% endblock page-title %}
-    
+
+{% block main-content %}
+    <div class="my-4">
+        <form action="">
+            {{form|crispy}}
+            <div class="my-2 text-end">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+    </div>                        
+{% endblock main-content %}

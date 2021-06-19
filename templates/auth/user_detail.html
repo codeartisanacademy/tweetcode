@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{object}}
+{% endblock title %}
+    
+{% block page-title %}
+    <h4>Profile - {{object.first_name}}</h4>
+    <span>@{{object.username}}</span>
+{% endblock page-title %}
+
+
+{% block main-content %}
+    <div class="text-end my-4 border-top py-2">
+        <a href="" class="btn btn-primary">Edit profile</a>
+    </div>
+    <div>
+        <h5>Full name</h5>
+        <p>{{object.first_name}} {{object.last_name}}</p>
+        <h5>Email</h5>
+        <p>{{object.email}}</p>
+
+        <h5>Location</h5>
+        <p>{{object.profile.location}}</p>
+        <h5>Bio</h5>
+        <p>{{object.profile.bio}}</p>
+    </div>
+
+    
+{% endblock main-content %}
+    

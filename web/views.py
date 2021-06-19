@@ -1,15 +1,18 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import SignUpForm
+from django.contrib.auth.models import User
+from .forms import SignUpForm, TweetForm
+from .models import Profile
 
 # Create your views here.
 class HomeView(TemplateView):
     template_name = 'home.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        form = TweetForm()
+        return render(request, self.template_name, {'form':form})
 
 class SignUpView(TemplateView):
     template_name = 'signup.html'
@@ -25,3 +28,8 @@ class SignUpView(TemplateView):
             return HttpResponseRedirect(reverse('login'))
         else:
             return render(request, self.template_name, {'form':form})
+
+class ProfileView(LoginRequiredMixin, DetailView):
+    model = User
+
+    
