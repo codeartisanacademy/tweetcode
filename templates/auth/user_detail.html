@@ -12,8 +12,21 @@
 
 
 {% block main-content %}
-    <div class="text-end my-4 border-top py-2">
-        <a href="" class="btn btn-primary">Edit profile</a>
+    <div class="text-end my-4 border-top py-2">   
+        
+        {% if request.user.is_authenticated %}
+            {% if request.user == object %}
+            <a href="" class="btn btn-primary">Edit profile</a> 
+            {% else %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit" class="btn btn-primary">Follow</button>
+                </form>
+                
+            {% endif %}
+        {% endif %}
+     
     </div>
     <div>
         <h5>Full name</h5>

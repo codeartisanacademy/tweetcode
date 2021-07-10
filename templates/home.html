@@ -8,11 +8,40 @@
 
 {% block main-content %}
     <div class="my-4">
-        <form action="">
-            {{form|crispy}}
-            <div class="my-2 text-end">
-                <button type="submit" class="btn btn-primary">Send</button>
-            </div>
-        </form>
-    </div>                        
+        
+        {% if request.user.is_authenticated %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="my-2 text-end">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </form>
+        {% endif %}
+            
+        
+    </div>  
+    <div class="my-2">
+        
+        {% if tweets %}
+            
+            {% for t in tweets %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="text-end text-muted">
+                            <span>{{t.created}}</span>
+                        </div>
+                        <p><a href="{% url 'profile' t.user.id %}">{{t.user}}</a></p>
+                        <p>
+                            {{t.content}}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+                <p>No tweets available</p>
+        {% endif %}
+            
+        
+    </div>                      
 {% endblock main-content %}

@@ -22,6 +22,10 @@ class Tweet(TimeStampedModel):
     def __str__(self):
         return self.content + " by " + self.user.username
 
+class Relationship(TimeStampedModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followings')
+    following_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
+
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
