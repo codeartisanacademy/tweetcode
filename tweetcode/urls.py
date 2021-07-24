@@ -23,4 +23,5 @@ urlpatterns = [
     path('', HomeView.as_view(),name='home'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('profile/<int:pk>/detail/', ProfileView.as_view(), name='profile'),
+    path('relationship/process', RelationshipProcess.as_view(), name='relationship_process'),
 ]

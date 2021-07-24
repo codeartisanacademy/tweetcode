@@ -18,11 +18,20 @@
             {% if request.user == object %}
             <a href="" class="btn btn-primary">Edit profile</a> 
             {% else %}
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {{form}}
-                    <button type="submit" class="btn btn-primary">Follow</button>
-                </form>
+                
+                {% if not following %}
+                    <form action="{% url 'relationship_process' %}" method="post">
+                        {% csrf_token %}
+                        {{form}}
+                        <button type="submit" class="btn btn-primary">Follow</button>
+                    </form>
+                {% else %}
+                    <form>
+                        <button type="submit" class="btn btn-warning">Unfollow</button>
+                    </form>    
+                {% endif %}
+                    
+                
                 
             {% endif %}
         {% endif %}

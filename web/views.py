@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView, CreateView
+from django.views.generic import TemplateView, DetailView, CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 from django.contrib.auth.models import User
 from .forms import SignUpForm, TweetForm, RelationshipForm
@@ -45,9 +46,27 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        following = False
+        if Relationship.objects.filter(user=self.request.user, following_user=self.object).count() > 0:
+            following = True
+        context["following"] = following
         context["form"] = RelationshipForm(initial={'user':self.request.user, 'following_user':self.object})
         return context
     
+    
+class RelationshipProcess(LoginRequiredMixin, View):
+
+    def post(self, request):
+        form = RelationshipForm(request.POST)
+        if form.is_valid():
+            relationship = form.save()
+            messages.success(request, "Successfully follow {0}".format(relationship.following_user))
+            return HttpResponseRedirect(reverse('profile', kwargs={'pk':relationship.following_user.id}))
+        else:
+            messages.error(request, "An error has occured, please try again")
+            return HttpResponseRedirect(reverse('profile', kwargs={'pk':relationship.following_user.id}))
+
+# create the unfollow process
 
 class RelationshipCreateView(LoginRequiredMixin, CreateView):
     model = Relationship

@@ -32,6 +32,16 @@
                     <h4>TweetCode</h4>
                 {% endblock page-title %}
                 <div class="mt-4">
+                    {% if messages %}
+                    
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="mt-4">
                     
                     {% block main-content %}
                         
