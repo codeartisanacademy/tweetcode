@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Following
+{% endblock title %}
+    
+{% block page-title %}
+    <h4>People i follow</h4>
+{% endblock page-title %}
+
+{% block main-content %}
+<div class="my-4 border-top py-2">
+    
+    {% for user in object_list  %}
+        <div class="row my-4">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-8">
+                <h3><a href="{% url 'profile' user.following_user.id  %}">{{user.following_user.first_name|title}}</a></h3>
+                <span>@{{user.following_user}}</span>
+                <p>{{user.following_user.profile.bio|default:"Hello there"}}</p>
+            </div>
+            <div class="col-sm-2 text-end">
+                <form action="{% url 'unfollow' request.user.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{user.id}}">
+                    <button class="btn btn-primary">Unfollow</button>
+                </form>
+                
+            </div>
+        </div>
+    {% endfor %}
+        
+    
+</div>
+
+{% endblock %}

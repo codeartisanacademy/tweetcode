@@ -24,4 +24,6 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('profile/<int:pk>/detail/', ProfileView.as_view(), name='profile'),
     path('relationship/process', RelationshipProcess.as_view(), name='relationship_process'),
+    path('<int:pk>/following/', FollowingListView.as_view(), name='following'),
+    path('<int:pk>/unfollow', UnfollowProcess.as_view(), name="unfollow" ),
 ]

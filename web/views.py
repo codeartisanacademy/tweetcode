@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView, CreateView, View
+from django.views.generic import TemplateView, DetailView, CreateView, View, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
@@ -53,7 +53,15 @@ class ProfileView(LoginRequiredMixin, DetailView):
         context["form"] = RelationshipForm(initial={'user':self.request.user, 'following_user':self.object})
         return context
     
+class FollowingListView(ListView):
+    model = Relationship
+    template_name = 'following_list.html'
     
+    def get_queryset(self, **kwargs):
+        queryset = Relationship.objects.filter(user=self.kwargs['pk'])
+        return queryset
+    
+
 class RelationshipProcess(LoginRequiredMixin, View):
 
     def post(self, request):
@@ -67,6 +75,16 @@ class RelationshipProcess(LoginRequiredMixin, View):
             return HttpResponseRedirect(reverse('profile', kwargs={'pk':relationship.following_user.id}))
 
 # create the unfollow process
+class UnfollowProcess(LoginRequiredMixin, View):
+
+    def post(self, request):
+        id = request.POST.get('id')
+        relationship = Relationship.objects.get(id=id)
+        relationship.delete()
+        relationship.save() 
+        print(id)
+
+        return HttpResponseRedirect(reverse('profile', kwargs={'pk':self.kwargs['pk']}))
 
 class RelationshipCreateView(LoginRequiredMixin, CreateView):
     model = Relationship

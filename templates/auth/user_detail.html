@@ -37,6 +37,14 @@
         {% endif %}
      
     </div>
+    <div class="my-4">
+        <div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="{% url 'following' object.id %}">Following</a></li>
+                <li class="list-inline-item"><a href="">Followers</a></li>
+            </ul>
+        </div>
+    </div>
     <div>
         <h5>Full name</h5>
         <p>{{object.first_name}} {{object.last_name}}</p>
